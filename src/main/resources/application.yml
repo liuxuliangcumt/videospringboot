@@ -8,7 +8,11 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  resources:
+    static-locations: classpath\:/META-INF/resources/,classpath\:/resources/,classpath\:/static/,classpath\:/public/,file\:F:/wechatProject/upload/
 server:
   servlet:
     context-path: /sell
-  port: 8089
+  port: 8080
+
+

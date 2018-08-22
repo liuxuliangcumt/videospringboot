@@ -7,7 +7,6 @@ import java.io.InputStream;
 import com.cumt.video.data.pojo.common.VideoJSONResult;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +36,7 @@ public class VideoController {
 
         // 文件保存的命名空间
 //		String fileSpace = File.separator + "imooc_videos_dev" + File.separator + "mvc-bgm";
-        String fileSpace = "C:" + File.separator + "imooc_videos_dev" + File.separator + "mvc-bgm";
+        String fileSpace = "F:" + File.separator + "imooc_videos_dev" + File.separator + "mvc-bgm";
         // 保存到数据库中的相对路径
         String uploadPathDB = File.separator + "bgm";
         FileOutputStream fileOutputStream = null;

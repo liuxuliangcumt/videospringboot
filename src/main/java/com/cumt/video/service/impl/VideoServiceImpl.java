@@ -1,28 +1,30 @@
 package com.cumt.video.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.cumt.video.data.pojo.Videos;
 import com.cumt.video.dataobject.Bgm;
 import com.cumt.video.dataobject.BgmExample;
+import com.cumt.video.dataobject.Videos;
+import com.cumt.video.repository.BgmRepository;
+import com.cumt.video.repository.VideoRepository;
 import com.cumt.video.service.VideoService;
 import com.cumt.video.util.PagedResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 
 @Service
 public class VideoServiceImpl implements VideoService {
 
+    @Autowired
+    BgmRepository bgmRepository;
 
-	
-	@Override
-	public PagedResult queryReportList(Integer page, Integer pageSize) {
+    @Autowired
+    VideoRepository videoRepository;
+
+    @Override
+    public PagedResult queryReportList(Integer page, Integer pageSize) {
 
 		/*PageHelper.startPage(page, pageSize);
 
@@ -35,38 +37,48 @@ public class VideoServiceImpl implements VideoService {
 		grid.setRows(reportsList);
 		grid.setPage(page);
 		grid.setRecords(pageList.getTotal());*/
-		PagedResult grid = new PagedResult();
+        PagedResult grid = new PagedResult();
 
-		return grid;
-	}
+        return grid;
+    }
 
-	@Override
-	public void updateVideoStatus(String videoId, Integer status) {
-		
-		Videos video = new Videos();
-		video.setId(videoId);
-		video.setStatus(status);
-	}
+    @Override
+    public void updateVideoStatus(String videoId, Integer status) {
 
-	@Override
-	public PagedResult queryBgmList(Integer page, Integer pageSize) {
-		
-		/*PageHelper.startPage(page, pageSize);
-		BgmExample example = new BgmExample();
-		List<Bgm> list = bgmMapper.selectByExample(example);
-		PageInfo<Bgm> pageList = new PageInfo<>(list);
-		PagedResult result = new PagedResult();
-		result.setTotal(pageList.getPages());
-		result.setRows(list);
-		result.setPage(page);
-		result.setRecords(pageList.getTotal());*/
-		PagedResult result = new PagedResult();
+        com.cumt.video.data.pojo.Videos videos = new com.cumt.video.data.pojo.Videos();
+        videos.setId(videoId);
+        videos.setStatus(status);
+    }
 
-		return result;
-	}
+    @Override
+    public void inserVideo(Videos videos) {
+        videoRepository.save(videos);
+    }
 
-	@Override
-	public void addBgm(Bgm bgm) {
+    @Override
+    public List<Videos> findVideos(String userId) {
+        List<Videos> videosList = videoRepository.findAllByuserId(userId);
+        System.out.println("数据库查询多个video  " + videosList.size());
+        return videosList;
+    }
+
+    @Override
+    public List<Bgm> queryBgmList(Integer page, Integer pageSize) {
+
+        PageHelper.startPage(page, pageSize);
+        BgmExample example = new BgmExample();
+        List<Bgm> list = bgmRepository.findAll();
+        PageInfo<Bgm> pageList = new PageInfo<>(list);
+        PagedResult result = new PagedResult();
+        result.setTotal(pageList.getPages());
+        result.setRows(list);
+        result.setPage(page);
+        result.setRecords(pageList.getTotal());
+        return list;
+    }
+
+    @Override
+    public void addBgm(Bgm bgm) {
 		/*String bgmId = sid.nextShort();
 		bgm.setId(bgmId);
 		bgmMapper.insert(bgm);
@@ -76,10 +88,10 @@ public class VideoServiceImpl implements VideoService {
 		map.put("path", bgm.getPath());
 		
 		zkCurator.sendBgmOperator(bgmId, JsonUtils.objectToJson(map));*/
-	}
-	
-	@Override
-	public void deleteBgm(String id) {
+    }
+
+    @Override
+    public void deleteBgm(String id) {
 	/*	Bgm bgm = bgmMapper.selectByPrimaryKey(id);
 		
 		bgmMapper.deleteByPrimaryKey(id);
@@ -89,7 +101,8 @@ public class VideoServiceImpl implements VideoService {
 		map.put("path", bgm.getPath());
 		
 		zkCurator.sendBgmOperator(id, JsonUtils.objectToJson(map));*/
-		
-	}
+
+    }
+
 
 }

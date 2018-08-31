@@ -2,6 +2,7 @@ package com.cumt.video.controller;
 
 import com.cumt.video.data.pojo.common.Desc;
 import com.cumt.video.data.pojo.common.MapResult;
+import com.cumt.video.data.pojo.common.VideoJSONResult;
 import com.cumt.video.dataobject.User;
 import com.cumt.video.params.LoginParam;
 import com.cumt.video.service.UserService;
@@ -43,7 +44,7 @@ public class RegistLoginController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginParam param) {
+    public VideoJSONResult login(@RequestBody LoginParam param) {
         // return "注册成功";  (value="password",required=false)
         User user = userService.findUserByUsername(param.getUsername());
         String pasword = "";
@@ -65,18 +66,15 @@ public class RegistLoginController {
                 desc.setCode("2");
             }
         }
-        return new ResponseEntity<Map<String, Object>>(MapResult.createResultMap("", desc, user), HttpStatus.OK);
+        return VideoJSONResult.ok(user);
 
     }
 
 
     @PostMapping("/query")
     public ResponseEntity<Map<String, Object>> query(@RequestBody LoginParam param) {
-
-
         User user = userService.queryUserByUserId(param.getUserId());
         Desc desc = new Desc();
-
         if (user != null) {
             desc.setDescription("查询成功");
             desc.setCode("1");

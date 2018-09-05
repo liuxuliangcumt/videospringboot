@@ -153,9 +153,13 @@ public class VideoController {
     @PostMapping("/showAll")
     @ResponseBody
     public VideoJSONResult showAll(@RequestBody LoginParam param) {
-        System.out.println("video/showAll所有作品     " + param.getUserId());
+        System.out.println("video/showAll所有作品 有有有    " + param.getUserId());
+
+
         List<Videos> videosList = videoService.findVideos(param.getUserId().toString());
         return VideoJSONResult.ok(videosList);
+
+
     }
 
 }
